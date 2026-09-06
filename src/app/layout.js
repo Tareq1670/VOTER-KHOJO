@@ -2,11 +2,15 @@ import { Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { MotionConfig } from "framer-motion";
+import {
+  baseMetadata,
+  organizationLd,
+} from "@/lib/seo";
 
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#f8fafc",
+  themeColor: "#4f46e5",
 };
 
 const hindSiliguri = Hind_Siliguri({
@@ -16,10 +20,16 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata = {
-  title: "ভোটার খুঁজো",
-  description: "তথ্যের মাধ্যমে সহজে খুঁজে নিন প্রয়োজনীয় ভোটার তথ্য",
+  ...baseMetadata,
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: "/icon.png",
+  },
+  verification: {
+    google: 'vzuRLOSzOiRgylq2sAl1hRVrlyWq5hoZ8V9a0MmKhSI',
   },
 };
 
@@ -31,6 +41,10 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-ink-50">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd()) }}
+        />
         <MotionConfig reducedMotion="user">{children}</MotionConfig>
         <Toaster
           position="top-center"
