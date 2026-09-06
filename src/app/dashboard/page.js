@@ -9,8 +9,9 @@ import { useCurrentUser, hasPermission } from "@/lib/currentUser";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { RippleLoader } from "@/components/loading-ui/ripple-loader";
+import { SERVER_URL } from "@/lib/apiConfig";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+const BASE_URL = SERVER_URL;
 
 const STATUS_LABELS = {
   pending: "অপেক্ষমাণ",

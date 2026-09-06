@@ -21,6 +21,7 @@ import {
 } from "@heroui/react";
 import { Envelope, Lock, Eye, EyeSlash, Person, PersonFill, CircleInfo, Camera } from "@gravity-ui/icons";
 import { uploadImageToImgBB, validateImage, MAX_SIZE_MB } from "@/services/imgbb";
+import { SERVER_URL } from "@/lib/apiConfig";
 import SearchInput from "@/components/ui/SearchInput";
 import { PrinterLoader } from "@/components/loading-ui/printer-loader";
 
@@ -86,10 +87,7 @@ export default function RegisterPage() {
 
     setSubmitting(true);
     try {
-      const baseURL =
-        process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
-
-      const response = await fetch(`${baseURL}/api/auth/register`, {
+      const response = await fetch(`${SERVER_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

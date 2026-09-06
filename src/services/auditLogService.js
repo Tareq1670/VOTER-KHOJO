@@ -1,4 +1,6 @@
-const BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
+import { SERVER_URL } from "@/lib/apiConfig";
+
+const BASE_URL = SERVER_URL;
 
 async function apiCall(path, options = {}) {
   const url = `${BASE_URL}${path}`;
