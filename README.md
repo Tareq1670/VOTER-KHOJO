@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## ভোটার খুঁজো deployment notes
+
+Set these environment variables in the Vercel project:
+
+| Variable                    | Example                                  |
+| --------------------------- | ---------------------------------------- |
+| `NEXT_PUBLIC_SERVER_URL`    | `https://<your-api>.vercel.app`          |
+| `NEXT_PUBLIC_AUTH_URL`      | `https://<your-api>.vercel.app/api/auth` |
+| `NEXT_PUBLIC_IMGBB_API_KEY` | your ImgBB key                           |
+
+The backend runs as a separate Vercel project (`voter_khojo_server`). Auth cookies
+use `SameSite=None; Secure` on the backend, so login works across the two Vercel domains.
