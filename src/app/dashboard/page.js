@@ -9,9 +9,7 @@ import { useCurrentUser, hasPermission } from "@/lib/currentUser";
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { RippleLoader } from "@/components/loading-ui/ripple-loader";
-import { SERVER_URL } from "@/lib/apiConfig";
-
-const BASE_URL = SERVER_URL;
+import { getApiBase } from "@/lib/apiConfig";
 
 const STATUS_LABELS = {
   pending: "অপেক্ষমাণ",
@@ -74,7 +72,7 @@ export default function DashboardHome() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${BASE_URL}/api/dashboard/stats`, {
+        const res = await fetch(`${getApiBase()}/api/dashboard/stats`, {
           credentials: "include",
         });
         const data = await res.json();

@@ -1,9 +1,7 @@
-import { SERVER_URL } from "@/lib/apiConfig";
-
-const BASE_URL = SERVER_URL;
+import { getApiBase } from "@/lib/apiConfig";
 
 async function apiCall(path, options = {}) {
-  const url = `${BASE_URL}${path}`;
+  const url = `${getApiBase()}${path}`;
   const res = await fetch(url, {
     credentials: "include",
     headers: { "Content-Type": "application/json", ...options.headers },

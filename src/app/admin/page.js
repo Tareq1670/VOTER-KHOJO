@@ -23,9 +23,7 @@ import {
 import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/lib/motion";
 import { RippleLoader } from "@/components/loading-ui/ripple-loader";
-import { SERVER_URL } from "@/lib/apiConfig";
-
-const BASE_URL = SERVER_URL;
+import { getApiBase } from "@/lib/apiConfig";
 
 const DASHBOARD_LIST_LIMIT = 5;
 
@@ -89,7 +87,7 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${BASE_URL}/api/dashboard/stats`, {
+        const res = await fetch(`${getApiBase()}/api/dashboard/stats`, {
           credentials: "include",
         });
         const data = await res.json();

@@ -1,9 +1,7 @@
-import { SERVER_URL } from "@/lib/apiConfig";
-
-const BASE_URL = SERVER_URL;
+import { getApiBase } from "@/lib/apiConfig";
 
 async function apiCall(path, options = {}) {
-  const url = `${BASE_URL}${path}`;
+  const url = `${getApiBase()}${path}`;
   const res = await fetch(url, {
     credentials: "include",
     headers: { "Content-Type": "application/json", ...options.headers },
@@ -21,7 +19,7 @@ export async function uploadPDFs(files, onProgress) {
   const formData = new FormData();
   files.forEach((file) => formData.append("pdfs", file));
 
-  const res = await fetch(`${BASE_URL}/api/pdfs/upload`, {
+  const res = await fetch(`${getApiBase()}/api/pdfs/upload`, {
     method: "POST",
     credentials: "include",
     body: formData,
@@ -68,7 +66,7 @@ export async function deletePDF(id) {
 // Binary download — the response is a file, not JSON, so this bypasses
 // apiCall and materializes the body as a Blob then saves it via a temp link.
 export async function downloadPDF(id) {
-  const res = await fetch(`${BASE_URL}/api/pdfs/${id}/download`, {
+  const res = await fetch(`${getApiBase()}/api/pdfs/${id}/download`, {
     credentials: "include",
   });
   if (!res.ok) {
