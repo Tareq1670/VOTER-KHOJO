@@ -36,6 +36,24 @@ import { PrinterLoader } from "@/components/loading-ui/printer-loader";
 const LIMIT = 20;
 const DEBOUNCE_MS = 350;
 
+// Auto-insert "/" after the day and month while typing a digits-only date, so
+// "20022000" becomes "20/02/2000" without the user typing separators. Manual
+// entry that already contains separators (/ . - space) is left exactly as typed.
+const BN_TO_AR = Object.fromEntries([...("০১২৩৪৫৬৭৮৯")].map((b, i) => [b, String(i)]));
+function formatDateInput(raw) {
+  if (!raw) return "";
+  if (/[\/\-\.\s]/.test(raw)) return raw;
+  const digits = raw
+    .replace(/[০-৯]/g, (ch) => BN_TO_AR[ch])
+    .replace(/\D/g, "")
+    .slice(0, 8);
+  if (!digits) return "";
+  let out = digits.slice(0, 2);
+  if (digits.length > 2) out += "/" + digits.slice(2, 4);
+  if (digits.length > 4) out += "/" + digits.slice(4, 8);
+  return out;
+}
+
 const ADVANCED_FIELDS = [
   { key: "name", label: "নাম" },
   { key: "fatherName", label: "পিতার নাম" },
@@ -325,7 +343,10 @@ export default function SearchPage() {
   };
 
   const handleAdvancedFieldChange = (key, value) => {
-    const next = { ...advancedFilters, [key]: value };
+    const next = {
+      ...advancedFilters,
+      [key]: key === "dateOfBirth" ? formatDateInput(value) : value,
+    };
     setAdvancedFilters(next);
     setPage(1);
     scheduleSearch({ advancedFilters: next, page: 1 });
