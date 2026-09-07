@@ -372,6 +372,12 @@ export default function AdminPDFsPage() {
                         </span>
                       </div>
 
+                      {pdf.processingStatus === "failed" && pdf.error && (
+                        <p className="mt-2 rounded-md bg-red-50 px-2.5 py-1.5 text-[11px] leading-snug text-red-700">
+                          {pdf.error}
+                        </p>
+                      )}
+
                       {/* Records + actions */}
                       <div className="mt-2 flex max-w-full flex-wrap items-center justify-between gap-x-2 gap-y-2">
                         <span className="min-w-0 text-xs font-medium text-ink-600">
@@ -477,6 +483,11 @@ export default function AdminPDFsPage() {
                             {pdf.deletedAt && (
                               <span className="inline-block rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-ink-600">
                                 অপসারিত
+                              </span>
+                            )}
+                            {pdf.processingStatus === "failed" && pdf.error && (
+                              <span className="inline-block max-w-[220px] whitespace-normal rounded-md bg-red-50 px-2 py-0.5 text-[10px] leading-snug text-red-700">
+                                {pdf.error}
                               </span>
                             )}
                           </div>

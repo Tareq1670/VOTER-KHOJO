@@ -10,6 +10,7 @@ import {
 } from "@heroui/react";
 import { CloudArrowUpIn, FileText, CircleCheck, CircleXmark, FolderOpen } from "@gravity-ui/icons";
 import { uploadPDFs } from "@/services/pdfService";
+import { getMaxUploadSize } from "@/lib/apiConfig";
 import { useCurrentUser, hasPermission } from "@/lib/currentUser";
 import PermissionDenied from "@/components/ui/PermissionDenied";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,7 +18,7 @@ import { fadeUp, staggerContainer } from "@/lib/motion";
 import { PrinterLoader } from "@/components/loading-ui/printer-loader";
 
 const MAX_FILES = 10;
-const MAX_SIZE = 20 * 1024 * 1024; // 20 MB
+const MAX_SIZE = getMaxUploadSize(); // 15 MB locally, 4 MB on Vercel
 
 function fileSizeLabel(bytes) {
   if (!bytes) return "";
@@ -52,7 +53,7 @@ export default function UploadPage() {
         return;
       }
       if (file.size > MAX_SIZE) {
-        skipped.push(`${file.name} — ২০ MB এর বেশি`);
+        skipped.push(`${file.name} — ${fileSizeLabel(MAX_SIZE)} এর বেশি`);
         return;
       }
       valid.push(file);
@@ -87,7 +88,18 @@ export default function UploadPage() {
       const mapped = Array.isArray(data) ? data : [];
       setResults(mapped);
       setFiles([]);
-      toast.success(`আপলোড সম্পন্ন — ${mapped.length} টি ফাইল।`);
+      const failedCount = mapped.filter(
+        (r) => r.status === "failed" || r.status === "duplicate" || r.status === "invalid"
+      ).length;
+      if (mapped.length > 0 && failedCount === mapped.length) {
+        toast.error(`আপলোড ব্যর্থ — ${failedCount} টি ফাইলে সমস্যা।`);
+      } else if (failedCount > 0) {
+        toast.success(
+          `আপলোড সম্পন্ন — ${mapped.length - failedCount} টি ফাইল, ${failedCount} টিতে সমস্যা।`
+        );
+      } else {
+        toast.success(`আপলোড সম্পন্ন — ${mapped.length} টি ফাইল।`);
+      }
     } catch (err) {
       setError(err.message || "আপলোড সফল হয়নি।");
       toast.error(err.message || "আপলোড সফল হয়নি।");
@@ -246,8 +258,10 @@ export default function UploadPage() {
                 key={`${r.id || i}`}
                 className="flex items-center gap-3 rounded-lg border border-ink-100 bg-ink-50 px-3 py-2.5"
               >
-                {r.status === "duplicate" ? (
+                {r.status === "duplicate" || r.status === "invalid" ? (
                   <CircleXmark className="size-5 shrink-0 text-amber-600" />
+                ) : r.status === "failed" ? (
+                  <CircleXmark className="size-5 shrink-0 text-red-600" />
                 ) : (
                   <CircleCheck className="size-5 shrink-0 text-green-600" />
                 )}
@@ -259,10 +273,20 @@ export default function UploadPage() {
                   className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
                     r.status === "duplicate"
                       ? "bg-amber-50 text-amber-700"
-                      : "bg-sky-50 text-sky-700"
+                      : r.status === "invalid"
+                        ? "bg-amber-50 text-amber-700"
+                        : r.status === "failed"
+                          ? "bg-red-50 text-red-700"
+                          : "bg-sky-50 text-sky-700"
                   }`}
                 >
-                  {r.status === "duplicate" ? "ডুপ্লিকেট" : "প্রক্রিয়াধীন"}
+                  {r.status === "duplicate"
+                    ? "ডুপ্লিকেট"
+                    : r.status === "invalid"
+                      ? "অবৈধ PDF"
+                      : r.status === "failed"
+                        ? "ব্যর্থ"
+                        : "প্রক্রিয়াধীন"}
                 </span>
               </div>
             ))}

@@ -26,3 +26,12 @@ export function getAuthUrl() {
   const envAuth = ENV_AUTH_URL.trim().replace(/\/+$/, "");
   return envAuth || `${getApiBase()}/api/auth`;
 }
+
+// Max size the current server can actually accept for one uploaded PDF.
+// Vercel's serverless gateway hard-caps request bodies at 4.5MB (413 above
+// that, before the app runs); locally the limit is Mongo's ~16MB BSON ceiling.
+export function getMaxUploadSize() {
+  return LOCALHOST_RE.test(getApiBase())
+    ? 15 * 1024 * 1024
+    : 4 * 1024 * 1024;
+}

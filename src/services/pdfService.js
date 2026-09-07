@@ -7,9 +7,17 @@ async function apiCall(path, options = {}) {
     headers: { "Content-Type": "application/json", ...options.headers },
     ...options,
   });
-  const data = await res.json();
-  if (!res.ok || !data.success) {
-    throw new Error(data.message || "অনুরোধটি সফল হয়নি।");
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
+  }
+  if (!res.ok || !data?.success) {
+    throw new Error(
+      data?.message ||
+        `সার্ভার থেকে ত্রুটি (HTTP ${res.status})। অল্প পরে আবার চেষ্টা করুন।`
+    );
   }
   return data;
 }
@@ -26,9 +34,26 @@ export async function uploadPDFs(files, onProgress) {
   });
 
   try {
-    const data = await res.json();
-    if (!res.ok || !data.success) {
-      throw new Error(data.message || "PDF আপলোড সফল হয়নি।");
+    // The body may not be JSON: Vercel's serverless gateway rejects
+    // oversized requests at the platform level with a plain 413 page (the app
+    // never runs), so parse defensively instead of throwing a SyntaxError.
+    let data = null;
+    try {
+      data = await res.json();
+    } catch {
+      data = null;
+    }
+
+    if (!res.ok || !data?.success) {
+      if (res.status === 413) {
+        throw new Error(
+          "ফাইলটি আপলোডের সর্বোচ্চ সীমা অতিক্রম করেছে। ভেরসেল হোস্টিংয়ে সর্বোচ্চ ৪ MB পর্যন্ত PDF আপলোড করা যায়।"
+        );
+      }
+      throw new Error(
+        data?.message ||
+          `সার্ভার থেকে ত্রুটি (HTTP ${res.status})। অল্প পরে আবার চেষ্টা করুন।`
+      );
     }
     return data.data;
   } finally {
