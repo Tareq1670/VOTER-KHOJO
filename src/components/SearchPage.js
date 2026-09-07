@@ -43,7 +43,7 @@ const ADVANCED_FIELDS = [
   { key: "spouseName", label: "স্বামী/স্ত্রী" },
   { key: "voterIdentifier", label: "ভোটার আইডি" },
   { key: "boothNumber", label: "বুথ/এলাকা নং" },
-  { key: "dateOfBirth", label: "জন্ম তারিখ (DD/MM/YYYY)" },
+  { key: "dateOfBirth", label: "জন্ম তারিখ (DDMMYYYY)" },
   { key: "village", label: "গ্রাম" },
   { key: "ward", label: "ওয়ার্ড" },
   { key: "union", label: "ইউনিয়ন" },
