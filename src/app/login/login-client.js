@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -41,9 +41,9 @@ export default function LoginClient() {
   // Messages the server sends when login is blocked because of account status
   // (as opposed to a wrong email/password).
   const APPROVAL_MESSAGES = [
-    "à¦†à¦ªà¦¨à¦¾à¦° à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦…à¦¨à§à¦®à§‹à¦¦à¦¿à¦¤ à¦¹à¦¯à¦¼à¦¨à¦¿à¥¤",
-    "à¦†à¦ªà¦¨à¦¾à¦° à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦¬à¦°à§à¦¤à¦®à¦¾à¦¨à§‡ à¦¸à§à¦¥à¦—à¦¿à¦¤ à¦°à¦¯à¦¼à§‡à¦›à§‡à¥¤",
-    "à¦†à¦ªà¦¨à¦¾à¦° à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦à¦–à¦¨à§‹ à¦à¦¡à¦®à¦¿à¦¨ à¦¦à§à¦¬à¦¾à¦°à¦¾ à¦…à¦¨à§à¦®à§‹à¦¦à¦¿à¦¤ à¦¹à¦¯à¦¼à¦¨à¦¿à¥¤",
+    "আপনার অ্যাকাউন্ট অনুমোদিত হয়নি।",
+    "আপনার অ্যাকাউন্ট বর্তমানে স্থগিত রয়েছে।",
+    "আপনার অ্যাকাউন্ট এখনো এডমিন দ্বারা অনুমোদিত হয়নি।",
   ];
 
   const handleSubmit = async (event) => {
@@ -66,10 +66,10 @@ export default function LoginClient() {
           error.status === 401 ||
           String(error.code || "").toUpperCase() === "UNAUTHORIZED"
         ) {
-          toast.error("à¦‡à¦®à§‡à¦‡à¦² à¦¬à¦¾ à¦ªà¦¾à¦¸à¦“à¦¯à¦¼à¦¾à¦°à§à¦¡ à¦­à§à¦² à¦¹à¦¯à¦¼à§‡à¦›à§‡à¥¤");
+          toast.error("ইমেইল বা পাসওয়ার্ড ভুল হয়েছে।");
         } else {
           toast.error(
-            rawMessage || "à¦²à¦—à¦‡à¦¨ à¦•à¦°à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿à¥¤ à¦…à¦¨à§à¦—à§à¦°à¦¹ à¦•à¦°à§‡ à¦†à¦¬à¦¾à¦° à¦šà§‡à¦·à§à¦Ÿà¦¾ à¦•à¦°à§à¦¨à¥¤"
+            rawMessage || "লগইন করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।"
           );
         }
         return;
@@ -84,7 +84,7 @@ export default function LoginClient() {
       }
       router.refresh();
     } catch (error) {
-      toast.error("à¦²à¦—à¦‡à¦¨à§‡à¦° à¦¸à¦®à¦¯à¦¼ à¦¸à¦®à¦¸à§à¦¯à¦¾ à¦¹à¦¯à¦¼à§‡à¦›à§‡à¥¤ à¦…à¦¨à§à¦—à§à¦°à¦¹ à¦•à¦°à§‡ à¦†à¦¬à¦¾à¦° à¦šà§‡à¦·à§à¦Ÿà¦¾ à¦•à¦°à§à¦¨à¥¤");
+      toast.error("লগইনের সময় সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
     } finally {
       setSubmitting(false);
     }
@@ -101,7 +101,7 @@ export default function LoginClient() {
             custom={0}
           >
             <CardDescription className="text-sm font-semibold uppercase tracking-widest text-brand-700">
-              à¦­à§‹à¦Ÿà¦¾à¦° à¦–à§à¦à¦œà§‹
+              ভোটার খুঁজো
             </CardDescription>
           </motion.div>
           <motion.div
@@ -112,7 +112,7 @@ export default function LoginClient() {
             className="mt-3"
           >
             <CardTitle className="text-2xl font-bold text-brand-700">
-              à¦¸à§à¦¬à¦¾à¦—à¦¤à¦® â€” à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨
+              স্বাগতম — লগইন করুন
             </CardTitle>
           </motion.div>
           <motion.div
@@ -123,7 +123,7 @@ export default function LoginClient() {
             className="mt-2"
           >
             <CardDescription className="mx-auto max-w-sm text-sm leading-relaxed text-ink-700">
-              à¦†à¦ªà¦¨à¦¾à¦° à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿà§‡ à¦ªà§à¦°à¦¬à§‡à¦¶ à¦•à¦°à§à¦¨à¥¤ à¦à¦¡à¦®à¦¿à¦¨ à¦…à¦¨à§à¦®à§‹à¦¦à¦¨ à¦¬à§à¦¯à¦¤à§€à¦¤ à¦²à¦—à¦‡à¦¨ à¦•à¦°à¦¾ à¦¯à¦¾à¦¬à§‡ à¦¨à¦¾à¥¤
+              আপনার অ্যাকাউন্টে প্রবেশ করুন। এডমিন অনুমোদন ব্যতীত লগইন করা যাবে না।
             </CardDescription>
           </motion.div>
         </CardHeader>
@@ -146,7 +146,7 @@ export default function LoginClient() {
               fullWidth
             >
               <Label className="text-sm font-medium text-ink-800">
-                à¦‡à¦®à§‡à¦‡à¦²
+                ইমেইল
               </Label>
               <SearchInput
                 icon={Envelope}
@@ -165,17 +165,17 @@ export default function LoginClient() {
               fullWidth
             >
               <Label className="text-sm font-medium text-ink-800">
-                à¦ªà¦¾à¦¸à¦“à¦¯à¦¼à¦¾à¦°à§à¦¡
+                পাসওয়ার্ড
               </Label>
               <SearchInput
                 icon={Lock}
-                placeholder="à¦†à¦ªà¦¨à¦¾à¦° à¦ªà¦¾à¦¸à¦“à¦¯à¦¼à¦¾à¦°à§à¦¡"
+                placeholder="আপনার পাসওয়ার্ড"
                 autoComplete="current-password"
                 endContent={
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    aria-label={showPassword ? "à¦ªà¦¾à¦¸à¦“à¦¯à¦¼à¦¾à¦°à§à¦¡ à¦²à§à¦•à¦¾à¦¨" : "à¦ªà¦¾à¦¸à¦“à¦¯à¦¼à¦¾à¦°à§à¦¡ à¦¦à§‡à¦–à§à¦¨"}
+                    aria-label={showPassword ? "পাসওয়ার্ড লুকান" : "পাসওয়ার্ড দেখুন"}
                     className="flex items-center text-ink-600 transition hover:text-ink-800"
                   >
                     {showPassword ? <EyeSlash className="size-4" /> : <Eye className="size-4" />}
@@ -192,23 +192,23 @@ export default function LoginClient() {
               variant="solid"
               className="mt-1 h-11 rounded-lg text-base font-semibold brand-gradient text-white transition"
             >
-              {submitting ? <RippleLoader size={0.32} /> : "à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨"}
+              {submitting ? <RippleLoader size={0.32} /> : "লগইন করুন"}
             </Button>
 
             <p className="text-center text-xs text-ink-600">
-              à¦¨à¦¿à¦°à¦¾à¦ªà¦¦ à¦“ à¦¸à§à¦°à¦•à§à¦·à¦¿à¦¤ à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦…à§à¦¯à¦¾à¦•à§à¦¸à§‡à¦¸
+              নিরাপদ ও সুরক্ষিত অ্যাকাউন্ট অ্যাক্সেস
             </p>
           </motion.form>
         </CardContent>
 
         <CardFooter className="justify-center px-8 pt-4 pb-10">
           <span className="text-sm text-ink-600">
-            à¦¨à¦¤à§à¦¨ à¦à¦–à¦¾à¦¨à§‡?{" "}
+            নতুন এখানে?{" "}
             <Link
               href="/register"
               className="font-semibold text-brand-700 hover:underline"
             >
-              à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦¤à§ˆà¦°à¦¿ à¦•à¦°à§à¦¨
+              অ্যাকাউন্ট তৈরি করুন
             </Link>
           </span>
         </CardFooter>
