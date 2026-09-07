@@ -66,13 +66,13 @@ body {
   --color-status-info-bg: #f0f9ff;
   --color-status-info-border: #bae6fd;
 
-  --font-sans: var(--font-hind-siliguri);
+  --font-sans: var(--font-josefin-sans), var(--font-hind-siliguri), sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-hind-siliguri), sans-serif;
+  font-family: var(--font-josefin-sans), var(--font-hind-siliguri), sans-serif;
 }
 
 /* ── Brand gradient utilities ────────────────────── */

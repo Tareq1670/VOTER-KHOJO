@@ -1,4 +1,4 @@
-import { Hind_Siliguri } from "next/font/google";
+import { Hind_Siliguri, Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { MotionConfig } from "framer-motion";
@@ -19,6 +19,12 @@ const hindSiliguri = Hind_Siliguri({
   subsets: ["latin", "bengali"],
 });
 
+const josefinSans = Josefin_Sans({
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-josefin-sans",
+  subsets: ["latin"],
+});
+
 export const metadata = {
   ...baseMetadata,
   icons: {
@@ -37,7 +43,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="bn"
-      className={`${hindSiliguri.variable} h-full antialiased`}
+      className={`${hindSiliguri.variable} ${josefinSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-ink-50">
