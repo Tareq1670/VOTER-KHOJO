@@ -94,7 +94,7 @@ export default function RegisterClient() {
           name,
           email,
           password,
-          image: imageUrl || null,
+          ...(imageUrl && { image: imageUrl }),
         }),
       });
 
