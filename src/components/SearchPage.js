@@ -203,7 +203,7 @@ function VoterDetailModal({ voter, open, onClose }) {
           </div>
         </div>
         <div className="flex justify-end border-t border-ink-100 px-6 py-4">
-          <Button variant="ghost" onPress={onClose}>
+          <Button variant="solid" onPress={onClose} className="brand-gradient text-white font-semibold h-10">
             বন্ধ করুন
           </Button>
         </div>
